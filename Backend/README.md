@@ -255,3 +255,157 @@ This endpoint logs out the currently logged-in user by invalidating their token.
 
 ## Contact
 For any issues or questions, feel free to reach out to the project maintainer.
+
+# Captain Routes Documentation
+
+This document provides details about the Captain-related routes in the Uber backend API. These routes handle operations such as registering a captain.
+
+---
+
+## Base URL
+```
+http://localhost:3000/captains
+```
+
+---
+
+## Endpoints
+
+### 1. **Register Captain**
+**Endpoint:**  
+```
+POST /captains/register
+```
+
+**Description:**  
+This endpoint allows a new captain to register by providing their personal details, email, password, and vehicle information.
+
+**Request Body Example:**
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+**Validation Rules:**
+- `email` must be a valid email address.
+- `fullname.firstname` must be at least 3 characters long.
+- `password` must be at least 6 characters long.
+- `vehicle.color` must be at least 3 characters long.
+- `vehicle.plate` must be at least 3 characters long.
+- `vehicle.capacity` must be an integer greater than or equal to 1.
+- `vehicle.vehicleType` must be one of the following: `car`, `motorcycle`, `auto`.
+
+**Response Example (Success):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "_id": "643f1c2e1c4e4b001c8e4b1a"
+  }
+}
+```
+
+**What Happens:**
+1. The server validates the input data using `express-validator`.
+2. The server checks if a captain with the provided email already exists.
+3. The password is hashed for security.
+4. A new captain is created in the database with the provided details.
+5. A JWT token is generated and returned along with the captain's details.
+
+**Error Responses:**
+- **400 Bad Request:** If validation fails or the captain already exists.
+  ```json
+  {
+    "message": "Captain already exists"
+  }
+  ```
+- **500 Internal Server Error:** If there is an issue with the server or database.
+
+---
+
+## Notes
+- **JWT Tokens:** The token is used to authenticate the captain for future requests.
+- **Password Security:** Passwords are hashed using `bcrypt` before being stored in the database.
+- **Validation:** Input data is validated using `express-validator` to ensure correctness.
+
+---
+
+## Example Usage in Postman
+
+### Register Captain
+- **Method:** `POST`
+- **URL:** `http://localhost:3000/captains/register`
+- **Body (JSON):**
+  ```json
+  {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+  ```
+
+---
+
+## Setup Instructions
+1. Clone the repository.
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Create a `.env` file with the following variables:
+   ```
+   DB_CONNECT=<your-mongodb-connection-string>
+   JWT_SECRET=<your-secret-key>
+   ```
+4. Start the server:
+   ```
+   npm start
+   ```
+5. Use Postman or any HTTP client to test the endpoints.
+
+---
+
+## Dependencies
+- **Express:** Web framework for Node.js.
+- **Mongoose:** MongoDB object modeling tool.
+- **jsonwebtoken:** For generating and verifying JWT tokens.
+- **bcrypt:** For hashing passwords.
+- **express-validator:** For validating input data.
+
+---
+
+## Contact
+For any issues or questions, feel free to reach out to the project maintainer.

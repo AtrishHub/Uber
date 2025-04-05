@@ -5,6 +5,7 @@ const router = express.Router();
 const{body}=require("express-validator");
 const userController=require('../controllers/user.controller');
 
+// user register
 router.post('/register',[
 
    body('email').isEmail().withMessage('Invalid Email'),
@@ -18,7 +19,13 @@ userController.registerUser
 
 //we have to check the data coming from front end is valid or not so foe this we install a package name express validator and install it 
 
-
+//user login
+router.post('/login',[
+ body('email').isEmail().withMessage('Invalid Email'),
+ body('password').isLength({min:6}).withMessage('Password should be minnium 6 digit')
+],
+ userController.loginUser
+ )
 
 
 

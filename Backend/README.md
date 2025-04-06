@@ -409,3 +409,336 @@ This endpoint allows a new captain to register by providing their personal detai
 
 ## Contact
 For any issues or questions, feel free to reach out to the project maintainer.
+# Uber Backend API Documentation
+
+This is the backend API for user and captain authentication and profile management. It includes endpoints for user and captain registration, login, profile retrieval, and logout. Below is a detailed explanation of each endpoint and how it works.
+
+---
+
+## Base URL
+```
+http://localhost:3000
+```
+
+---
+
+## Endpoints
+
+### User Routes Documentation
+
+---
+
+### 1. **Register User**
+**Endpoint:**  
+```
+POST /users/register
+```
+
+**Description:**  
+This endpoint allows a new user to register by providing their first name, last name, email, and password.
+
+**Request Body Example:**
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+**Validation Rules:**
+- `email` must be a valid email address.
+- `fullname.firstname` must be at least 3 characters long.
+- `password` must be at least 6 characters long.
+
+**Response Example (Success):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "password": "hashed_password"
+  }
+}
+```
+
+---
+
+### 2. **Login User**
+**Endpoint:**  
+```
+POST /users/login
+```
+
+**Description:**  
+This endpoint allows an existing user to log in by providing their email and password.
+
+**Request Body Example:**
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+**Validation Rules:**
+- `email` must be a valid email address.
+- `password` must be at least 6 characters long.
+
+**Response Example (Success):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+---
+
+### 3. **Get User Profile**
+**Endpoint:**  
+```
+GET /users/profile
+```
+
+**Description:**  
+This endpoint retrieves the profile of the currently logged-in user.
+
+**Headers Example:**
+```json
+{
+  "Authorization": "Bearer <your-token>"
+}
+```
+
+**Response Example (Success):**
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com"
+}
+```
+
+---
+
+### 4. **Logout User**
+**Endpoint:**  
+```
+GET /users/logout
+```
+
+**Description:**  
+This endpoint logs out the currently logged-in user by invalidating their token.
+
+**Headers Example:**
+```json
+{
+  "Authorization": "Bearer <your-token>"
+}
+```
+
+**Response Example (Success):**
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+---
+
+## Captain Routes Documentation
+
+---
+
+### 1. **Register Captain**
+**Endpoint:**  
+```
+POST /captains/register
+```
+
+**Description:**  
+This endpoint allows a new captain to register by providing their personal details, email, password, and vehicle information.
+
+**Request Body Example:**
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+---
+
+### 2. **Login Captain**
+**Endpoint:**  
+```
+POST /captains/login
+```
+
+**Description:**  
+This endpoint allows an existing captain to log in by providing their email and password.
+
+**Request Body Example:**
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+**Validation Rules:**
+- `email` must be a valid email address.
+- `password` must be at least 6 characters long.
+
+**Response Example (Success):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "_id": "643f1c2e1c4e4b001c8e4b1a"
+  }
+}
+```
+
+---
+
+### 3. **Get Captain Profile**
+**Endpoint:**  
+```
+GET /captains/profile
+```
+
+**Description:**  
+This endpoint retrieves the profile of the currently logged-in captain.
+
+**Headers Example:**
+```json
+{
+  "Authorization": "Bearer <your-token>"
+}
+```
+
+**Response Example (Success):**
+```json
+{
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "_id": "643f1c2e1c4e4b001c8e4b1a"
+  }
+}
+```
+
+---
+
+### 4. **Logout Captain**
+**Endpoint:**  
+```
+GET /captains/logout
+```
+
+**Description:**  
+This endpoint logs out the currently logged-in captain by invalidating their token.
+
+**Headers Example:**
+```json
+{
+  "Authorization": "Bearer <your-token>"
+}
+```
+
+**Response Example (Success):**
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+---
+
+## Notes
+- **JWT Tokens:** Tokens are used to authenticate users and captains. They expire after 24 hours.
+- **Token Blacklisting:** When a user or captain logs out, their token is blacklisted to prevent reuse.
+- **Validation:** Input data is validated using `express-validator` to ensure correctness.
+
+---
+
+## Setup Instructions
+1. Clone the repository.
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Create a `.env` file with the following variables:
+   ```
+   DB_CONNECT=<your-mongodb-connection-string>
+   JWT_SECRET=<your-secret-key>
+   ```
+4. Start the server:
+   ```
+   npm start
+   ```
+5. Use Postman or any HTTP client to test the endpoints.
+
+---
+
+## Dependencies
+- **Express:** Web framework for Node.js.
+- **Mongoose:** MongoDB object modeling tool.
+- **jsonwebtoken:** For generating and verifying JWT tokens.
+- **bcrypt:** For hashing passwords.
+- **express-validator:** For validating input data.
+- **cookie-parser:** For parsing cookies.
+
+---
+
+## Contact
+For any issues or questions, feel free to reach out to the project maintainer.

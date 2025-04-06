@@ -1,4 +1,5 @@
 
+const blacklistTokenModel = require('../models/blacklistToken.model');
 const captainModel=require('../models/captain.model');
 const captainService=require('../services/captain.service');
 const {validationResult}=require('express-validator');
@@ -37,5 +38,47 @@ const token=captain.generateAuthToken();
 
 }
 
+
+
+module.exports.loginCaptain=async (req,res,next)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+    const {email,password}=req.body;
+    const captain = await captainModel.findOne({email}).select('+password');
+    if(!captain){
+        return res.status(400).json({message:'Invalid email or password'});
+    }
+    const isPasswordMatched=await captain.comparePassword(password);
+    if(!isPasswordMatched){
+        return res.status(400).json({message:'Invalid email or password'});
+    }
+    const token=captain.generateAuthToken();
+    res.cookie('token',token);
+    res.status(200).json({token,captain});
+
+}
+
+module.exports.getCaptainProfile=async (req,res,next)=>{
+    
+   captain=req.captain;
+    res.status(200).json({captain});
+}
+
+module.exports.logoutCaptain=async (req,res,next)=>{
+    console.log('Logout route hit');
+
+    const token = req.cookies.token||req.headers.authorization?.split(' ')[1];
+    console.log('Token in logout:', token);
+    if (!token) {
+        return res.status(400).json({ message: 'Token is required for logout' });
+    }
+    await blacklistTokenModel.create({token});
+    console.log('Token blacklisted successfully');
+
+    res.clearCookie('token');
+    res.status(200).json({message:'Logged out successfully'});
+};
 
 

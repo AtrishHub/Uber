@@ -20,7 +20,7 @@ const navigate = useNavigate()
       const[vehicleColor, setVehicleColor] = useState('')
       const[vehiclePlate, setVehiclePlate] = useState('')
       const[vehicleCapacity, setVehicleCapacity] = useState('')
-      const[vehicleType, setVehicleType] = useState('')
+      const[vehicleType, setVehicleType] = useState('car')
 
 
 const {captain, setCaptain} = useContext(CaptainDataContext);
@@ -44,7 +44,7 @@ const {captain, setCaptain} = useContext(CaptainDataContext);
             }
         }
         
-
+try{
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
 
         if(response.status === 201){
@@ -61,7 +61,12 @@ const {captain, setCaptain} = useContext(CaptainDataContext);
               setVehiclePlate('')
               setVehicleCapacity('')
               setVehicleType('')
+     }  
+catch(err){
+        console.log(err)
      }
+       
+      }
   return (
     <div className='py-5 px-5 flex flex-col justify-between h-screen'>
 
@@ -71,44 +76,44 @@ const {captain, setCaptain} = useContext(CaptainDataContext);
     <img className='w-16 mb-10' src="https://pngimg.com/uploads/uber/uber_PNG24.png"/> 
   <form  onSubmit={(e)=> submitHandler(e)}>
 
-  <h3 className='text-lg font-medium font-semibold mb-2'>What's Our Captain's Name</h3>
+  <h3 className='text-lg  font-semibold mb-2'>What's Our Captain's Name</h3>
   <div className='flex gap-4 '>
   <input type="text"
     value={firstName}
     onChange={(e) => setFirstName(e.target.value)}
      placeholder="First Name"
       required 
-      className='bg-[#eeeeee] w-1/2  mb-7 rounded px-4 py-2 border  text-lg placeholder:text-gray-500 text-base mb-4'/>
+      className='bg-[#eeeeee] w-1/2  rounded px-4 py-2 border  text-lg placeholder:text-gray-500  mb-4'/>
        <input type="text"
     value={lastName}
     onChange={(e) => setLastName(e.target.value)}
      placeholder="Last Name"
       required 
-      className='bg-[#eeeeee]  w-1/2 mb-7 rounded px-4 py-2 border  text-lg placeholder:text-gray-500 mb-4'/>
+      className='bg-[#eeeeee]  w-1/2  rounded px-4 py-2 border  text-lg placeholder:text-gray-500 mb-4'/>
 
   </div>
     
 
 
-    <h3 className='text-lg font-medium mb-2 font-semibold '>What's Our Captain's email</h3>
+    <h3 className='text-lg  mb-2 font-semibold '>What's Our Captain's email</h3>
     <input type="email"
     value={email}
     onChange={(e) => setEmail(e.target.value)}
      placeholder="email@example.com"
       required 
-      className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-gray-500 mb-4'/>
+      className='bg-[#eeeeee]  rounded px-4 py-2 border w-full text-lg placeholder:text-gray-500 mb-4'/>
 
 
-    <h3 className='text-lg font-medium mb-2 font-semibold '>Enter Password</h3>
+    <h3 className='text-lg  mb-2 font-semibold '>Enter Password</h3>
     <input type="password"
     value={password}
     onChange={(e) => setPassword(e.target.value)}
      placeholder="Password"
       required
-      className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-gray-500 mb-4'/>
+      className='bg-[#eeeeee]  rounded px-4 py-2 border w-full text-lg placeholder:text-gray-500 mb-4'/>
        
 <div>
-<h3 className='text-lg font-medium mb-2 font-semibold '>Vehicle Details</h3>
+<h3 className='text-lg  mb-2 font-semibold '>Vehicle Details</h3>
 <div className='flex gap-4 '>   
 
   <input type="text"
@@ -116,13 +121,13 @@ const {captain, setCaptain} = useContext(CaptainDataContext);
     onChange={(e) => setVehicleColor(e.target.value)}
      placeholder="Vehicle Color"
       required 
-      className='bg-[#eeeeee] w-1/2  mb-7 rounded px-4 py-2 border  text-lg placeholder:text-gray-500 text-base mb-4'/>
+      className='bg-[#eeeeee] w-1/2   rounded px-4 py-2 border  text-lg placeholder:text-gray-500  mb-4'/>
        <input type="text"
     value={vehiclePlate}
     onChange={(e) => setVehiclePlate(e.target.value)}
      placeholder="Vehicle Plate"
       required 
-      className='bg-[#eeeeee]  w-1/2 mb-7 rounded px-4 py-2 border  text-lg placeholder:text-gray-500 mb-4'/>
+      className='bg-[#eeeeee]  w-1/2  rounded px-4 py-2 border  text-lg placeholder:text-gray-500 mb-4'/>
 
 
 
@@ -135,12 +140,12 @@ const {captain, setCaptain} = useContext(CaptainDataContext);
     onChange={(e) => setVehicleCapacity(e.target.value)}
      placeholder="Vehicle Capacity"
       required 
-      className='bg-[#eeeeee] w-1/2  mb-7 rounded px-4 py-2 border  text-lg placeholder:text-gray-500 text-base mb-4'/>
+      className='bg-[#eeeeee] w-1/2   rounded px-4 py-2 border   placeholder:text-gray-500 text-base mb-4'/>
 
         <select   defaultselected="car"
         value={vehicleType}
         onChange={(e) => setVehicleType(e.target.value)}
-        className='bg-[#eeeeee] w-1/2  mb-7 rounded px-4 py-2 border  text-lg placeholder:text-gray-500 text-base mb-4'>
+        className='bg-[#eeeeee] w-1/2   rounded px-4 py-2 border   placeholder:text-gray-500 text-base mb-4'>
         <option value="car">Car</option>
         <option value="motorcycle">Motorcycle</option>
         <option value="auto">Auto</option>

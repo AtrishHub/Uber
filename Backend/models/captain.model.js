@@ -55,7 +55,7 @@ vehicle:{
     capacity:{
         type:String,
         required:true,
-        minlength:[1,'Capacity must be at least 3 characters long'],
+        minlength:[1,'Capacity must be at least 1 characters long'],
     },
     vehicleType:{
         type:String,
